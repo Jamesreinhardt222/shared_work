@@ -5,14 +5,13 @@ def timer(func):
     """Print the runtime of the decorated function"""
 
     def wrapper(*args, **kwargs):
-        filename = "results.txt"
-        start_time = time.perf_counter()
+        start_time = time.perf_counter_ns()
         value = func(*args, **kwargs)
-        end_time = time.perf_counter()
+        end_time = time.perf_counter_ns()
         run_time = end_time - start_time
-
+        filename = "results.txt"
         with open(filename, 'a') as file_object:
-            file_object.write(f"Finished {func.__name__!r} in {run_time:.4f} secs\n")
+            file_object.write(f"Finished {func.__name__!r} in {run_time:.4f} nanosecs\n")
         return value
 
     return wrapper
@@ -29,26 +28,24 @@ def factorial_iterative(n):
     return factorial
 
 
-@timer
-def factorial_recursive(n):
+def factorial_recursive_helper(n):
     if n == 1:
         return 1
     else:
-        factorial_recursive_helper(n)
-        factorial_recursive(n-1)
+        return n * factorial_recursive_helper(n - 1)
 
 
-def factorial_recursive_helper(n):
-    answer = 1
-    for number in range (1, n):
-        answer *= number
-    return answer
+@timer
+def factorial_recursive(n):
+    return factorial_recursive_helper(n)
 
 
 def main():
-    for n in range(1, 10):
-        print(f"factorial_iterative({n}) : {factorial_iterative(n)}\n")
-        print(f"factorial_recursive({n}) : {factorial_recursive(factorial_recursive_helper(n))}\n")
+    for n in range(1, 101):
+        factorial_iterative(n)
+        factorial_recursive(n)
+        # print(f"factorial_iterative({n}) : {factorial_iterative(n)}\n")
+        # print(f"factorial_recursive({n}) : {factorial_recursive(n)}\n")
 
 
 if __name__ == "__main__":
