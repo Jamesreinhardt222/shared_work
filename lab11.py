@@ -28,7 +28,6 @@ def factorial_iterative(n):
     return factorial
 
 
-@timer
 def factorial_recursive_helper(n):
     if n == 1:
         return 1
@@ -36,14 +35,17 @@ def factorial_recursive_helper(n):
         return n * factorial_recursive_helper(n - 1)
 
 
-def factorial_recursive(helper_function):
-    return helper_function
+@timer
+def factorial_recursive(n):
+    return factorial_recursive_helper(n)
 
 
 def main():
     for n in range(1, 101):
-        print(f"factorial_iterative({n}) : {factorial_iterative(n)}\n")
-        print(f"factorial_recursive({n}) : {factorial_recursive(factorial_recursive_helper(n))}\n")
+        factorial_iterative(n)
+        factorial_recursive(n)
+        # print(f"factorial_iterative({n}) : {factorial_iterative(n)}\n")
+        # print(f"factorial_recursive({n}) : {factorial_recursive(n)}\n")
 
 
 if __name__ == "__main__":
