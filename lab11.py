@@ -5,14 +5,13 @@ def timer(func):
     """Print the runtime of the decorated function"""
 
     def wrapper(*args, **kwargs):
-        # filename = "results.txt"
-        # with open(filename, 'r+') as file_object:
-        #     file_object.write("something")
         start_time = time.perf_counter()
         value = func(*args, **kwargs)
         end_time = time.perf_counter()
         run_time = end_time - start_time
-        print(f"Finished {func.__name__!r} in {run_time:.4f} secs")
+        filename = "results.txt"
+        with open(filename, 'a') as file_object:
+            file_object.write(f"Finished {func.__name__!r} in {run_time:.4f} secs\n")
         return value
 
     return wrapper
