@@ -1,4 +1,5 @@
 import time
+import doctest
 
 
 def timer(func):
@@ -17,7 +18,6 @@ def timer(func):
         run_time = end_time - start_time
         filename = "results.txt"
         with open(filename, 'a') as file_object:
-            print(args[0])
             file_object.write(f"Finished {func.__name__!r} for !{args[0]} in {run_time:.4f} nanosecs\n")
         return value
 
@@ -34,7 +34,9 @@ def factorial_iterative(number):
     :postcondition: will return the factorial of the number.
     :return: an int.
 
-    >>>>
+    >>>>factorial_iterative(3)
+    6
+
     """
     factorial = 1
     while True:
@@ -70,6 +72,10 @@ def factorial_recursive(number):
     :precondition number: must be an int greater than zero.
     :postcondition, the helper function will return the final answer to this function.
     :return: an int.
+
+    >>>factorial_recursive(3)
+    6
+
     """
     return factorial_recursive_helper(number)
 
@@ -81,4 +87,6 @@ def main():
 
 
 if __name__ == "__main__":
+    doctest.testmod()
     main()
+
